@@ -31,20 +31,22 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.pgbouncer.image.registry }}/{{ .Values.pgbouncer.image.repository }}:{{ .Values.pgbouncer.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.pgbouncer.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: postgres
+              containerPort: {{ .Values.pgbouncer.port }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpsocket:
+              port: {{ .Values.pgbouncer.port }}
+            initialDelaySeconds: 10
+            periodSeconds: 15
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpsocket:
+              port: {{ .Values.pgbouncer.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

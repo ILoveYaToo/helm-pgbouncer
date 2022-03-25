@@ -4,12 +4,6 @@
 
 replicaCount: 1
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -57,16 +51,6 @@ ingress:
   #      - chart-example.local
 
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false
@@ -86,12 +70,18 @@ pgbouncer:
     registry: docker.io
     repository: iloveyatoo/pgbouncer
     tag: "0.16.1"
+    pullPolicy: Always
   port: 5432
   auth:
     type: md5
-    user: pgbouncer
-    password: "" #md5passwordhere
-    query: "SELECT p_user, p_password FROM public.lookup($1)"
+    query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
+  users:
+    pgbouncer: "md5passwordhere"
+  databases:
+    '*':
+      user: pgbouncer
+      host: postgres-address
+      port: 5432
   ssl:
     client:
       tls_sslmode: disable
@@ -102,3 +92,11 @@ pgbouncer:
       tls_protocols: secure
       tls_dheparams: auto
       tls_ecdhcurve: auto
+    server:
+      tls_sslmode: disable
+      tls_ca_file: /etc/ssl/ca.crt
+      tls_key_file: /etc/ssl/server.crt
+      tls_cert_file: /etc/ssl/server.key
+      tls_protocols: secure
+      tls_ciphers: secure
+  hba: []
