@@ -24,7 +24,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "pgbouncer.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -49,6 +48,25 @@ spec:
             periodSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: userlist
+              mountPath: /etc/pgbouncer/userlist.txt
+              readOnly: true
+            - name: pgbouncer_config
+              mountPath: /etc/pgbouncer/pgbouncer.ini
+              subPath: pgbouncer.ini
+            - name: pgbouncer_config
+              mountPath: /etc/pgbouncer/pg_hba.conf
+              subPath: pg_hba.conf
+      volumes:
+        - name: userlist
+          secret:
+            secretName: "{{ include "pgbouncer.fullname" . }}"
+            items:
+              - key: userlist.txt
+        - name: pgbouncer_config
+          configMap:
+            name: "{{ include "pgbouncer.fullname" . }}"
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

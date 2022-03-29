@@ -7,9 +7,9 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-    - port: {{ .Values.service.port }}
-      targetPort: http
+    - port: {{ .Values.pgbouncer.port }}
+      targetPort: {{ .Values.pgbouncer.port }}
       protocol: TCP
-      name: http
+      name: pgbouncer
   selector:
     {{- include "pgbouncer.selectorLabels" . | nindent 4 }}

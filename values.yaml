@@ -1,21 +1,9 @@
-# Default values for pgbouncer.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+# Default number of replicas of PGBouncer
 replicaCount: 1
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
-
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
 
 podAnnotations: {}
 
@@ -32,23 +20,6 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
-
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
 
 resources: {}
 
@@ -99,4 +70,58 @@ pgbouncer:
       tls_cert_file: /etc/ssl/server.key
       tls_protocols: secure
       tls_ciphers: secure
+  pooler:
+    pool_mode: session
+    server_reset_query: DISCARD ALL
+    server_reset_query_always: 0
+    ignore_startup_parameters: extra_float_digits
+    server_check_query: select 1
+    server_check_delay: 30
+    server_fast_close: 0
+    application_name_add_host: 0
+    stats_period: 60
+  connection_limits:
+    max_client_conn: 100
+    default_pool_size: 20
+    min_pool_size: 0
+    reserve_pool_size: 0
+    reserve_pool_timeout: 5
+    max_db_connections: 0
+    max_user_connections: 0
+    server_round_robin: 0
+  logging:
+    log_connections: 1
+    log_disconnections: 1
+    log_pooler_errors: 1
+    log_stats: 1
+    verbose: 0
+  timeouts:
+    server_lifetime: 3600
+    server_idle_timeout: 600
+    server_connect_timeout: 15
+    server_login_retry: 15
+    query_timeout: 0
+    query_wait_timeout: 120
+    client_idle_timeout: 0
+    client_login_timeout: 60
+    autodb_idle_timeout: 3600
+    idle_transaction_timeout: 0
+    suspend_timeout: 10
+  tuning:
+    pkt_buf: 4096
+    listen_backlog: 128
+    sbuf_loopcnt: 5
+    max_packet_size: 2147483647
+    so_reuseport: 0
+    tcp_defer_accept: 0
+    tcp_socket_buffer: 0
+    tcp_keepalive: 1
+    tcp_keepcnt: 0
+    tcp_keepidle: 0
+    tcp_keepintvl: 0
+    tcp_user_timeout: 0
+    dns_max_ttl: 15
+    dns_zone_check_period: 0
+    dns_nxdomain_ttl: 15
+    resolv_conf: /etc/pgbouncer/resolv.conf
   hba: []
