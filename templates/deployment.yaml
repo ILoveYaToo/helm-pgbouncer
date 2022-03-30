@@ -52,6 +52,7 @@ spec:
             - name: userlist
               mountPath: "/etc/pgbouncer"
               readOnly: true
+              subPath: userlist.txt
             - name: pgbouncer-config
               mountPath: /etc/pgbouncer/pgbouncer.ini
               subPath: pgbouncer.ini
