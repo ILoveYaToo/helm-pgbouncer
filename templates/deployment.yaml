@@ -37,12 +37,12 @@ spec:
               containerPort: {{ .Values.pgbouncer.port }}
               protocol: TCP
           livenessProbe:
-            tcpsocket:
+            tcpSocket:
               port: {{ .Values.pgbouncer.port }}
             initialDelaySeconds: 10
             periodSeconds: 15
           readinessProbe:
-            tcpsocket:
+            tcpSocket:
               port: {{ .Values.pgbouncer.port }}
             initialDelaySeconds: 5
             periodSeconds: 10
