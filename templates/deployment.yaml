@@ -50,7 +50,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: userlist
-              mountPath: /etc/pgbouncer/userlist.txt
+              mountPath: /etc/pgbouncer/
               readOnly: true
             - name: pgbouncer-config
               mountPath: /etc/pgbouncer/pgbouncer.ini
