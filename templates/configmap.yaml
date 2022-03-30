@@ -39,12 +39,12 @@ data:
     server_tls_cert_file = {{ .Values.pgbouncer.ssl.server.tls_cert_file }}
     server_tls_protocols = {{ .Values.pgbouncer.ssl.server.tls_protocols }}
     server_tls_ciphers = {{ .Values.pgbouncer.ssl.server.tls_ciphers }}
-    auth_type = {{ .Values.pgbouncer.auth.type }}
+    auth_type = {{ .Values.pgbouncer.auth.auth_type }}
     auth_file = /etc/pgbouncer/userlist.txt
     {{- if eq .Values.pgbouncer.auth.type "hba" -}}
     auth_hba_file = /etc/pgbouncer.hba.conf
     {{- end }}
-    auth_query = {{ .Values.pgbouncer.auth.query }}
+    auth_query = {{ .Values.pgbouncer.auth.auth_query }}
     pool_mode = {{ .Values.pgbouncer.pooler.pool_mode }}
     server_reset_query = {{ .Values.pgbouncer.pooler.server_reset_query }}
     server_reset_query_always = {{ .Values.pgbouncer.pooler.server_reset_query_always }}

@@ -2,21 +2,16 @@
 replicaCount: 1
 
 imagePullSecrets: []
+
 nameOverride: ""
+
 fullnameOverride: ""
 
 podAnnotations: {}
 
 podSecurityContext: {}
-  # fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -44,8 +39,8 @@ pgbouncer:
     pullPolicy: Always
   port: 5432
   auth:
-    type: md5
-    query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
+    auth_type: md5
+    auth_query: "SELECT usename, passwd FROM pg_shadow WHERE usename=$1"
   users:
     pgbouncer: "md5passwordhere"
   databases:
