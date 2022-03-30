@@ -118,5 +118,5 @@ pgbouncer:
     dns_max_ttl: 15
     dns_zone_check_period: 0
     dns_nxdomain_ttl: 15
-    resolv_conf: /etc/pgbouncer/resolv.conf
+    resolv_conf: /etc/resolv.conf
   hba: []
