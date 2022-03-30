@@ -64,6 +64,7 @@ spec:
             secretName: "{{ include "pgbouncer.fullname" . }}"
             items:
               - key: userlist.txt
+                path: userlist.txt
         - name: pgbouncer_config
           configMap:
             name: "{{ include "pgbouncer.fullname" . }}"
