@@ -35,7 +35,7 @@ pgbouncer:
   image:
     registry: docker.io
     repository: iloveyatoo/pgbouncer
-    tag: "0.16.1"
+    tag: "1.16.1"
     pullPolicy: Always
   port: 5432
   auth:
