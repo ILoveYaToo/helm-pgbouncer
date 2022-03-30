@@ -52,10 +52,10 @@ spec:
             - name: userlist
               mountPath: /etc/pgbouncer/userlist.txt
               readOnly: true
-            - name: pgbouncer_config
+            - name: pgbouncer-config
               mountPath: /etc/pgbouncer/pgbouncer.ini
               subPath: pgbouncer.ini
-            - name: pgbouncer_config
+            - name: pgbouncer-config
               mountPath: /etc/pgbouncer/pg_hba.conf
               subPath: pg_hba.conf
       volumes:
@@ -65,7 +65,7 @@ spec:
             items:
               - key: userlist.txt
                 path: userlist.txt
-        - name: pgbouncer_config
+        - name: pgbouncer-config
           configMap:
             name: "{{ include "pgbouncer.fullname" . }}"
       {{- with .Values.nodeSelector }}
