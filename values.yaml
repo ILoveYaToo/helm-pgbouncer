@@ -48,23 +48,22 @@ pgbouncer:
       user: pgbouncer
       host: postgres-address
       port: 5432
-  ssl:
-    client:
-      tls_sslmode: disable
-      tls_ca_file: /etc/ssl/ca.crt
-      tls_key_file: /etc/ssl/server.crt
-      tls_cert_file: /etc/ssl/server.key
-      tls_ciphers: fast
-      tls_protocols: secure
-      tls_dheparams: auto
-      tls_ecdhcurve: auto
-    server:
-      tls_sslmode: disable
-      tls_ca_file: /etc/ssl/ca.crt
-      tls_key_file: /etc/ssl/server.crt
-      tls_cert_file: /etc/ssl/server.key
-      tls_protocols: secure
-      tls_ciphers: secure
+  client_tls:
+    client_tls_sslmode: disable
+    client_tls_ca_file: /etc/ssl/ca.crt
+    client_tls_key_file: /etc/ssl/server.crt
+    client_tls_cert_file: /etc/ssl/server.key
+    client_tls_ciphers: fast
+    client_tls_protocols: secure
+    client_tls_dheparams: auto
+    client_tls_ecdhcurve: auto
+  server_tls:
+    server_tls_sslmode: disable
+    server_tls_ca_file: /etc/ssl/ca.crt
+    server_tls_key_file: /etc/ssl/server.crt
+    server_tls_cert_file: /etc/ssl/server.key
+    server_tls_protocols: secure
+    server_tls_ciphers: secure
   pooler:
     pool_mode: session
     server_reset_query: DISCARD ALL
